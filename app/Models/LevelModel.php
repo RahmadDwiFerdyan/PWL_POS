@@ -8,10 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class LevelModel extends Model
 {
     use HasFactory;
-    protected $table = 'm_level';//mendefinisikan nama tabel yang dipakai oleh model ini
-    protected $primaryKey = 'level_id';//mendefinisikan primary key dari tabel yang dipakai
-    /** 
+
+    protected $table = 'm_level'; // Sesuaikan dengan nama tabel di database
+    protected $primaryKey = 'level_id';
+
+     /** 
      * @var array
      * 
     */
+
+    protected $fillable = ['level_kode', 'level_nama']; // Pastikan hanya field yang dibutuhkan
 }
