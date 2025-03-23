@@ -59,6 +59,8 @@ Route::group(['prefix' => 'barang'], function () {
     Route::post('/list', [BarangController::class, 'list']);
     Route::get('/create', [BarangController::class, 'create']);
     Route::post('/', [BarangController::class, 'store']);
+    Route::get('/create_ajax', [BarangController::class, 'create_ajax']);
+    Route::post('/ajax', [BarangController::class, 'store_ajax']);
     Route::get('/{id}', [BarangController::class, 'show']);
     Route::get('/{id}/edit', [BarangController::class, 'edit']);
     Route::put('/{id}', [BarangController::class, 'update']);

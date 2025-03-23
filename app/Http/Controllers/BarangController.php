@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\BarangModel;
 use App\Models\KategoriModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
 
 class BarangController extends Controller
@@ -150,5 +151,44 @@ class BarangController extends Controller
         } catch (\Illuminate\Database\QueryException $e) {
             return redirect('/barang')->with('error', 'Data barang gagal dihapus karena masih terdapat tabel lain yang terkait');
         }
+    }
+
+    public function create_ajax()
+    {
+        $kategori = KategoriModel::select('kategori_id', 'kategori_nama')->get();
+
+        return view('barang.create_ajax')
+            ->with('kategori', $kategori);
+    }
+
+    public function store_ajax(Request $request)
+    {
+        if ($request->ajax() || $request->wantsJson()) {
+            $rules = [
+                'kategori_id'  => 'required|integer',
+                'barang_kode' => 'required|string|max:10|unique:m_barang,barang_kode',
+                'barang_nama' => 'required|string|max:100',
+                'harga_beli' => 'required|integer',
+                'harga_jual' => 'required|integer'
+            ];
+
+
+            $validator = Validator::make($request->all(), $rules);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Validasi Gagal',
+                    'msgField' => $validator->errors()
+                ]);
+            }
+
+            BarangModel::create($request->all());
+            return response()->json([
+                'status' => true,
+                'message' => 'Data Barang berhasil disimpan'
+            ]);
+        }
+        return redirect('/');
     }
 }
