@@ -31,8 +31,6 @@ class UserController extends Controller
         );
     }
 
-    // Ambil data user dalam bentuk json untuk datatables
-    // Ambil data user dalam bentuk json untuk datatables
     public function list(Request $request)
     {
         $users = UserModel::select('user_id', 'username', 'nama', 'level_id')
