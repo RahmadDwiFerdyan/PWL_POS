@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\KategoriModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
 
 class KategoriController extends Controller
@@ -133,5 +134,37 @@ class KategoriController extends Controller
         } catch (\Illuminate\Database\QueryException $e) {
             return redirect('/kategori')->with('error', 'Data kategori gagal dihapus karena masih terkait dengan data lain');
         }
+    }
+
+    public function create_ajax()
+    {
+        return view('kategori.create_ajax');
+    }
+    public function store_ajax(Request $request)
+    {
+        if ($request->ajax() || $request->wantsJson()) {
+            $rules = [
+                'kategori_kode' => 'required|string|max:10|unique:m_kategori,kategori_kode',
+                'kategori_nama' => 'required|string|max:100'
+            ];
+
+
+            $validator = Validator::make($request->all(), $rules);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Validasi Gagal',
+                    'msgField' => $validator->errors()
+                ]);
+            }
+
+            KategoriModel::create($request->all());
+            return response()->json([
+                'status' => true,
+                'message' => 'Data kategori  berhasil disimpan'
+            ]);
+        }
+        return redirect('/');
     }
 }
