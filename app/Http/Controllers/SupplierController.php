@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\SupplierModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
 
 class SupplierController extends Controller
@@ -37,7 +38,7 @@ class SupplierController extends Controller
                 $btn = '<a href="' . url('/supplier/' . $supplier->supplier_id) . '" class="btn btn-info btn-sm">Detail</a> ';
                 $btn .= '<a href="' . url('/supplier/' . $supplier->supplier_id . '/edit') . '" class="btn btn-warning btn-sm">Edit</a> ';
                 $btn .= '<form class="d-inline-block" method="POST" action="' . url('/supplier/' . $supplier->supplier_id) . '">' .
-                    csrf_field() . method_field('DELETE') . 
+                    csrf_field() . method_field('DELETE') .
                     '<button type="submit" class="btn btn-danger btn-sm" onclick="return confirm(\'Apakah Anda yakin menghapus data ini?\');">Hapus</button></form>';
                 return $btn;
             })
@@ -138,4 +139,38 @@ class SupplierController extends Controller
             return redirect('/supplier')->with('error', 'Data supplier gagal dihapus karena masih terkait dengan data lain');
         }
     }
+
+    public function create_ajax()
+    {
+        return view('supplier.create_ajax');
+    }
+    public function store_ajax(Request $request)
+    {
+        if ($request->ajax() || $request->wantsJson()) {
+            $rules = [
+                'supplier_kode' => 'required|string|max:10|unique:m_supplier,supplier_kode',
+                'supplier_nama' => 'required|string|max:100',
+                'supplier_alamat' => 'required|string|max:100',
+                'supplier_kontak' => 'required|string|max:15'
+            ];
+
+
+            $validator = Validator::make($request->all(), $rules);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Validasi Gagal',
+                    'msgField' => $validator->errors()
+                ]);
+            }
+
+            SupplierModel::create($request->all());
+            return response()->json([
+                'status' => true,
+                'message' => 'Data Supplier berhasil disimpan'
+            ]);
+        }
+        return redirect('/');
+    }   
 }
