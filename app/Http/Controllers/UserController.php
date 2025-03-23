@@ -180,7 +180,6 @@ class UserController extends Controller
 
     public function store_ajax(Request $request)
     {
-        //cek apakah rquest berupa ajax
         if ($request->ajax() || $request->wantsJson()) {
             $rules = [
                 'level_id'  => 'required|integer',
@@ -195,7 +194,7 @@ class UserController extends Controller
             if ($validator->fails()) {
                 return response()->json([
                     'status' => false,
-                    'mesaage' => 'Validasi Gagal',
+                    'message' => 'Validasi Gagal',
                     'msgField' => $validator->errors()
                 ]);
             }
@@ -206,6 +205,6 @@ class UserController extends Controller
                 'message' => 'Data user berhasil disimpan'
             ]);
         }
-        redirect('/');
+        return redirect('/');
     }
 }
