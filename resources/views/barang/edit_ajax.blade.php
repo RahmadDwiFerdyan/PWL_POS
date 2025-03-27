@@ -43,25 +43,25 @@
                     </div>
                     
                     <div class="form-group">
-                        <label>barang_kode</label>
+                        <label>Kode Barang</label>
                         <input value="{{ $barang->barang_kode }}" type="text" name="barang_kode" id="barang_kode" class="form-control" required>
                         <small id="error-barang_kode" class="error-text form-text text-danger"></small>
                     </div>
                     
                     <div class="form-group">
-                        <label>barang_nama</label>
+                        <label>Nama Barang</label>
                         <input value="{{ $barang->barang_nama }}" type="text" name="barang_nama" id="barang_nama" class="form-control" required>
                         <small id="error-barang_nama" class="error-text form-text text-danger"></small>
                     </div>
                     
                     <div class="form-group">
-                        <label>harga_beli</label>
+                        <label>Harga Beli</label>
                         <input value="{{ $barang->harga_beli }}" type="text" name="harga_beli" id="harga_beli" class="form-control" required>
                         <small id="error-harga_beli" class="error-text form-text text-danger"></small>
                     </div>
                     
                     <div class="form-group">
-                        <label>harga_jual</label>
+                        <label>Harga Jual</label>
                         <input value="{{ $barang->harga_jual }}" type="text" name="harga_jual" id="harga_jual" class="form-control" required>
                         <small id="error-harga_jual" class="error-text form-text text-danger"></small>
                     </div>

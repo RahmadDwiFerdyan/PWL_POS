@@ -10,22 +10,22 @@
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <label>supplier_kode</label>
+                    <label>Kode Supplier</label>
                     <input value="" type="text" name="supplier_kode" id="supplier_kode" class="form-control" required>
                     <small id="error-supplier_kode" class="error-text form-text text-danger"></small>
                 </div>
                 <div class="form-group">
-                    <label>supplier_nama</label>
+                    <label>Nama Supplier</label>
                     <input value="" type="text" name="supplier_nama" id="supplier_nama" class="form-control" required>
                     <small id="error-supplier_nama" class="error-text form-text text-danger"></small>
                 </div>
                 <div class="form-group">
-                    <label>supplier_alamat</label>
+                    <label>Alamat Supplier</label>
                     <input value="" type="text" name="supplier_alamat" id="supplier_alamat" class="form-control" required>
                     <small id="error-supplier_alamat" class="error-text form-text text-danger"></small>
                 </div>
                 <div class="form-group">
-                    <label>supplier_kontak</label>
+                    <label>Kontak Supplier</label>
                     <input value="" type="text" name="supplier_kontak" id="supplier_kontak" class="form-control" required>
                     <small id="error-supplier_kontak" class="error-text form-text text-danger"></small>
                 </div>

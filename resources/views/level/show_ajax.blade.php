@@ -28,8 +28,8 @@
             <div class="modal-body">
                 <table class="table table-bordered">
                     <tr><th>ID</th><td>{{ $level->level_id }}</td></tr>
-                    <tr><th>Kode</th><td>{{ $level->level_kode }}</td></tr>
-                    <tr><th>Nama</th><td>{{ $level->level_nama }}</td></tr>
+                    <tr><th>Kode Level</th><td>{{ $level->level_kode }}</td></tr>
+                    <tr><th>Nama Level</th><td>{{ $level->level_nama }}</td></tr>
                 </table>
             </div>
             <div class="modal-footer">

@@ -10,12 +10,12 @@
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <label>kategori_kode</label>
+                    <label>Kode Kategori</label>
                     <input value="" type="text" name="kategori_kode" id="kategori_kode" class="form-control" required>
                     <small id="error-kategori_kode" class="error-text form-text text-danger"></small>
                 </div>
                 <div class="form-group">
-                    <label>kategori_nama</label>
+                    <label>Nama Kategori</label>
                     <input value="" type="text" name="kategori_nama" id="kategori_nama" class="form-control" required>
                     <small id="error-kategori_nama" class="error-text form-text text-danger"></small>
                 </div>
