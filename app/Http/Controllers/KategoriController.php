@@ -220,4 +220,42 @@ class KategoriController extends Controller
         }
         return redirect('/');
     }
+
+    public function confirm_ajax(string $id)
+    {
+        $kategori = KategoriModel::find($id);
+
+        return view('kategori.confirm_ajax', ['kategori' => $kategori]);
+    }
+
+    public function delete_ajax(Request $request, $id)
+    {
+        if ($request->ajax() || $request->wantsJson()){
+            $kategori = KategoriModel::find($id);
+            if($kategori){
+                $kategori->delete();
+                return response()->json([
+                    'status' => true,
+                    'message' => 'Data berhasil dihapus'
+                ]);
+            } else {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Data tidak ditemukan'
+                ]);
+            }
+        }
+        return redirect('/');
+    }
+
+    public function show_ajax(string $id)
+    {
+        $kategori = KategoriModel::find($id);
+
+        if (!$kategori) {
+            return response()->json(['status' => false, 'message' => 'Data tidak ditemukan']);
+        }
+
+        return view('kategori.show_ajax', ['kategori' => $kategori]);
+    }
 }

@@ -47,9 +47,9 @@ class BarangController extends Controller
             })
             ->addColumn('aksi', function ($barang) { // menambahkan kolom aksi 
 
-                // $btn = '<a href="' . url('/user/' . $user->user_id) . '" class="btn btn-info btnsm">Detail</a> ';
-                // $btn .= '<a href="' . url('/user/' . $user->user_id . '/edit') . '" class="btn btnwarning btn-sm">Edit</a> ';
-                // $btn .= '<form class="d-inline-block" method="POST" action="' . url('/user/' . $user->user_id) . '">'
+                // $btn = '<a href="' . url('/barang/' . $barang->barang_id) . '" class="btn btn-info btnsm">Detail</a> ';
+                // $btn .= '<a href="' . url('/barang/' . $barang->barang_id . '/edit') . '" class="btn btnwarning btn-sm">Edit</a> ';
+                // $btn .= '<form class="d-inline-block" method="POST" action="' . url('/barang/' . $barang->barang_id) . '">'
                 //     . csrf_field() . method_field('DELETE') .
                 //     '<button type="submit" class="btn btn-danger btn-sm" onclick="return 
                 //     confirm(\'Apakah Anda yakin menghapus data ini?\');">Hapus</button></form>';
@@ -219,7 +219,7 @@ class BarangController extends Controller
                 'harga_beli' => 'required|integer',
                 'harga_jual' => 'required|integer'
             ];
-            
+
             $validator = Validator::make($request->all(), $rules);
             if ($validator->fails()) {
                 return response()->json([
@@ -246,5 +246,42 @@ class BarangController extends Controller
             }
         }
         return redirect('/');
+    }
+    public function confirm_ajax(string $id)
+    {
+        $barang = BarangModel::find($id);
+
+        return view('barang.confirm_ajax', ['barang' => $barang]);
+    }
+
+    public function delete_ajax(Request $request, $id)
+    {
+        if ($request->ajax() || $request->wantsJson()) {
+            $barang = BarangModel::find($id);
+            if ($barang) {
+                $barang->delete();
+                return response()->json([
+                    'status' => true,
+                    'message' => 'Data berhasil dihapus'
+                ]);
+            } else {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Data tidak ditemukan'
+                ]);
+            }
+        }
+        return redirect('/');
+    }
+
+    public function show_ajax(string $id)
+    {
+        $barang = BarangModel::with('kategori')->find($id);
+
+        if (!$barang) {
+            return response()->json(['status' => false, 'message' => 'Data tidak ditemukan']);
+        }
+
+        return view('barang.show_ajax', ['barang' => $barang]);
     }
 }

@@ -226,4 +226,42 @@ class SupplierController extends Controller
         }
         return redirect('/');
     }
+
+    public function confirm_ajax(string $id)
+    {
+        $supplier = SupplierModel::find($id);
+
+        return view('supplier.confirm_ajax', ['supplier' => $supplier]);
+    }
+
+    public function delete_ajax(Request $request, $id)
+    {
+        if ($request->ajax() || $request->wantsJson()){
+            $supplier = SupplierModel::find($id);
+            if($supplier){
+                $supplier->delete();
+                return response()->json([
+                    'status' => true,
+                    'message' => 'Data berhasil dihapus'
+                ]);
+            } else {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Data tidak ditemukan'
+                ]);
+            }
+        }
+        return redirect('/');
+    }
+
+    public function show_ajax(string $id)
+    {
+        $supplier = SupplierModel::find($id);
+
+        if (!$supplier) {
+            return response()->json(['status' => false, 'message' => 'Data tidak ditemukan']);
+        }
+
+        return view('supplier.show_ajax', ['supplier' => $supplier]);
+    }
 }

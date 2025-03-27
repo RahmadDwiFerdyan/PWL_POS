@@ -221,4 +221,41 @@ class LevelController extends Controller
         }
         return redirect('/');
     }
+    public function confirm_ajax(string $id)
+    {
+        $level = LevelModel::find($id);
+
+        return view('level.confirm_ajax', ['level' => $level]);
+    }
+
+    public function delete_ajax(Request $request, $id)
+    {
+        if ($request->ajax() || $request->wantsJson()){
+            $level = LevelModel::find($id);
+            if($level){
+                $level->delete();
+                return response()->json([
+                    'status' => true,
+                    'message' => 'Data berhasil dihapus'
+                ]);
+            } else {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Data tidak ditemukan'
+                ]);
+            }
+        }
+        return redirect('/');
+    }
+
+    public function show_ajax(string $id)
+    {
+        $level = LevelModel::find($id);
+
+        if (!$level) {
+            return response()->json(['status' => false, 'message' => 'Data tidak ditemukan']);
+        }
+
+        return view('level.show_ajax', ['level' => $level]);
+    }
 }
