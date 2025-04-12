@@ -53,8 +53,8 @@
                                 if (result.isConfirmed) {
                                     // Cari elemen modal terdekat dan tutup
                                     $('#modal-master').closest('.modal').modal('hide');
-                                    if (typeof dataKategori !== 'undefined') {
-                                        dataKategori.ajax.reload();
+                                    if (typeof tableKategori !== 'undefined') {
+                                        tableKategori.ajax.reload();
                                     }
                                 }
                             });

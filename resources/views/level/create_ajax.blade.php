@@ -53,8 +53,8 @@
                                 if (result.isConfirmed) {
                                     // Cari elemen modal terdekat dan tutup
                                     $('#modal-master').closest('.modal').modal('hide');
-                                    if (typeof dataLevel !== 'undefined') {
-                                        dataLevel.ajax.reload();
+                                    if (typeof tableLevel !== 'undefined') {
+                                        tableLevel.ajax.reload();
                                     }
                                 }
                             });

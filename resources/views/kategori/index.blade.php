@@ -1,5 +1,108 @@
 @extends('layouts.template')
 @section('content')
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Daftar kategori</h3>
+            <div class="card-tools">
+                <button onclick="modalAction('{{ url('/kategori/import') }}')" class="btn btn-info">Import kategori</button>
+                <a href="{{ url('/kategori/create') }}" class="btn btn-primary">Tambah Data</a>
+                <button onclick="modalAction('{{ url('/kategori/create_ajax') }}')" class="btn btn-success">Tambah Data (Ajax)</button>
+            </div>
+        </div>
+        <div class="card-body">
+            
+            <!-- Pesan Sukses atau Error -->
+            @if(session('success'))
+                <div class="alert alert-success">{{ session('success') }}</div>
+            @endif
+            @if(session('error'))
+                <div class="alert alert-danger">{{ session('error') }}</div>
+            @endif
+
+            <!-- Tabel kategori -->
+            <table class="table table-bordered table-sm table-striped table-hover" id="table-kategori">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Kode Kategori</th>
+                        <th>Nama Kategori</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="myModal" class="modal fade animate shake" tabindex="-1" data-backdrop="static" data-keyboard="false" data-width="75%"></div>
+@endsection
+
+@push('js')
+    <script>
+        // Fungsi untuk memuat konten modal
+        function modalAction(url = '') {
+            $('#myModal').load(url, function () {
+                $('#myModal').modal('show');
+            });
+        }
+
+        // Inisialisasi DataTable
+        var tableKategori;
+        $(document).ready(function () {
+            tableKategori = $('#table-kategori').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: "{{ url('kategori/list') }}",
+                    dataType: "json",
+                    type: "POST",
+                    data: function (d) {
+                        d.kategori_id = $('#kategori_id').val();
+                    }
+                },
+                columns: [
+                    {
+                        data: "DT_RowIndex",
+                        className: "text-center",
+                        orderable: false,
+                        searchable: false
+                    }, {
+                        data: "kategori_kode",
+                        className: "",
+                        orderable: true,
+                        searchable: true
+                    }, {
+                        data: "kategori_nama",
+                        className: "",
+                        orderable: true,
+                        searchable: true
+                    }, {
+                        data: "aksi",
+                        className: "",
+                        orderable: false,
+                        searchable: false
+                    }
+                ]
+            });
+
+            // Event untuk pencarian dengan tombol Enter
+            $('#table-kategori_filter input').unbind().on('keyup', function (e) {
+                if (e.keyCode === 13) { // Enter key
+                    tableKategori.search(this.value).draw();
+                }
+            });
+
+            $('#kategori_id').change(function () {
+                tableKategori.draw();
+            });
+        });
+    </script>
+@endpush
+
+{{-- 
+@extends('layouts.template')
+@section('content')
     <div class="card card-outline card-primary">
         <div class="card-header">
             <h3 class="card-title">{{ $page->title }}</h3>
@@ -77,4 +180,4 @@
             });
         });
     </script>
-@endpush
+@endpush --}}
