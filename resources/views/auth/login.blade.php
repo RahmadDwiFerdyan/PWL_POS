@@ -55,6 +55,10 @@
                             <button type="submit" class="btn btn-primary btn-block">Sign In</button>
                         </div>
                     </div>
+                    <div class="mt-4">
+                        <p class="text-center">Don't have account? <a href="{{ url('/register') }}">Register here!</a>
+                        </p>
+                    </div>
                 </form>
             </div>
         </div>
