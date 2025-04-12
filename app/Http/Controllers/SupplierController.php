@@ -6,7 +6,9 @@ use App\Models\SupplierModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
+use Barryvdh\DomPDF\Facade\Pdf;
 use PhpOffice\PhpSpreadsheet\IOFactory;
+
 class SupplierController extends Controller
 {
     public function index()
@@ -183,7 +185,7 @@ class SupplierController extends Controller
             ]);
         }
         return redirect('/');
-    }   
+    }
 
     public function edit_ajax(string $id)
     {
@@ -197,7 +199,7 @@ class SupplierController extends Controller
         // cek apakah request dari ajax
         if ($request->ajax() || $request->wantsJson()) {
             $rules = [
-                'supplier_kode' => 'required|string|max:10|unique:m_supplier,supplier_kode,'.$id.',supplier_id',
+                'supplier_kode' => 'required|string|max:10|unique:m_supplier,supplier_kode,' . $id . ',supplier_id',
                 'supplier_nama' => 'required|string|max:100',
                 'supplier_alamat' => 'required|string|max:100',
                 'supplier_kontak' => 'required|string|max:15'
@@ -236,9 +238,9 @@ class SupplierController extends Controller
 
     public function delete_ajax(Request $request, $id)
     {
-        if ($request->ajax() || $request->wantsJson()){
+        if ($request->ajax() || $request->wantsJson()) {
             $supplier = SupplierModel::find($id);
-            if($supplier){
+            if ($supplier) {
                 $supplier->delete();
                 return response()->json([
                     'status' => true,
@@ -335,7 +337,7 @@ class SupplierController extends Controller
 
     public function export_excel()
     {
-        $supplier = SupplierModel::select( 'supplier_kode', 'supplier_nama', 'supplier_alamat', 'supplier_kontak')
+        $supplier = SupplierModel::select('supplier_kode', 'supplier_nama', 'supplier_alamat', 'supplier_kontak')
             ->orderBy('supplier_kode')
             ->get();
 
@@ -382,4 +384,17 @@ class SupplierController extends Controller
         $writer->save('php://output');
         exit;
     } //end function export_excel
+
+    public function export_pdf()
+    {
+        $supplier = SupplierModel::select('supplier_kode', 'supplier_nama', 'supplier_alamat', 'supplier_kontak')
+            ->orderBy('supplier_kode')
+            ->get();
+
+        $pdf = Pdf::loadView('supplier.export_pdf', ['supplier' => $supplier]);
+        $pdf->setPaper('a4', 'portrait'); // set ukuran kertas dan orientasi 
+        $pdf->setOption("isRemoteEnabled", true); // set true jika ada gambar dari url
+        $pdf->render();
+        return $pdf->stream('Data supplier' . date('Y-m-d H:i:s') . '.pdf');
+    }
 }
