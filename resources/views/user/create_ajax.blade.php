@@ -71,8 +71,8 @@
                             if (result.isConfirmed) {
                                 // Cari elemen modal terdekat dan tutup
                                 $('#modal-master').closest('.modal').modal('hide');
-                                if (typeof dataUser !== 'undefined') {
-                                    dataUser.ajax.reload();
+                                if (typeof tableUser !== 'undefined') {
+                                    tableUser.ajax.reload();
                                 }
                             }
                         });

@@ -11,20 +11,18 @@
         </div>
         <div class="card-body">
             <!-- Filter Data -->
-            <div id="filter" class="form-horizontal filter-date p-2 border-bottom mb-2">
-                <div class="row"> 
-                    <div class="col-md-12">
-                        <div class="form-group form-group-sm row text-sm mb-0">
-                            <label for="filter_kategori" class="col-md-1 col-form-label">Filter</label>
-                            <div class="col-md-3">
-                                <select name="filter_kategori" id="filter_kategori" class="form-control form-control-sm filter-kategori">
-                                    <option value="">- Semua -</option>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group row">
+                        <label class="col-1 control-label col-form-label">Filter:</label>
+                        <div class="col-3">
+                            <select class="form-control" id="kategori_id" name="kategori_id" required>
+                                <option value="">- Semua -</option>
                                     @foreach($kategori as $item)
                                         <option value="{{ $item->kategori_id }}">{{ $item->kategori_nama }}</option>
                                     @endforeach
                                 </select>
                                 <small class="form-text text-muted">Kategori Barang</small>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -70,7 +68,7 @@
         }
 
         // Inisialisasi DataTable
-        let tableBarang;
+        var tableBarang;
         $(document).ready(function () {
             tableBarang = $('#table-barang').DataTable({
                 processing: true,
@@ -80,7 +78,7 @@
                     dataType: "json",
                     type: "POST",
                     data: function (d) {
-                        d.filter_kategori = $('.filter-kategori').val();
+                        d.kategori_id = $('#kategori_id').val();
                     }
                 },
                 columns: [
@@ -150,7 +148,7 @@
             });
 
             // Event untuk filter kategori
-            $('.filter-kategori').change(function () {
+            $('#kategori_id').change(function () {
                 tableBarang.draw();
             });
         });
