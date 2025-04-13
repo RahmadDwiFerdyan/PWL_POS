@@ -4,7 +4,7 @@
 
 <div class="card">
     <div class="card-header">
-        <h3 class="card-title">Halo, apa kabar?</h3>
+        <h3 class="card-title">Halo, apa kabar?</h3>    
         <div class='card-tools'></div>
     </div>
     <div class="card-body">
@@ -16,12 +16,23 @@
         <h3 class="card-title">Profil Saya</h3>
     </div>
     <div class="card-body">
-        <form action="{{ url('/user/profile') }}" method="POST" enctype="multipart/form-data">
+        <div class="d-flex align-items-center">
+            <div class="mr-3">
+                <img src="{{ asset('storage/photos/' . (Auth::user()->photo ?? 'default.jpg')) }}" class="img-thumbnail" width="150">
+            </div>
+            <div class="flex-grow-1">
+                <div class="border p-3 rounded">
+                    <p><strong>Nama: </strong>{{ Auth::user()->nama }}</p>
+                    <p><strong>Username: </strong> {{ Auth::user()->username }}</p>
+                    <p><strong>Level: </strong> {{ Auth::user()->level->level_nama }}</p>
+                </div>
+            </div>
+        </div>
+        <form action="{{ url('/user/profile') }}" method="POST" enctype="multipart/form-data" class="mt-3">
             @csrf
             @method('PUT')
             <div class="form-group">
-                <label for="photo">Foto Profil</label><br>
-                <img src="{{ asset('storage/photos/' . (Auth::user()->photo ?? 'default.png')) }}" class="img-thumbnail" width="150">
+                <label for="photo">Ganti Foto Profil</label>
                 <input type="file" name="photo" class="form-control mt-2">
             </div>
             <button type="submit" class="btn btn-primary mt-2">Simpan</button>
@@ -29,6 +40,27 @@
     </div>
 </div>
 
+@if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
+@if (session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+@endif
+
+@if (session('warning'))
+    <div class="alert alert-warning">
+        {{ session('warning') }}
+    </div>
+@endif
 @endsection
 
 {{-- <!DOCTYPE html>

@@ -19,6 +19,9 @@ Route::post('logout', [AuthController::class, 'logout'])->middleware('auth');
 Route::get('/register', [AuthController::class, 'showRegisterForm']);
 Route::post('/register', [AuthController::class, 'register']);
 
+Route::get('user/profile', [ProfileController::class, 'show_profile']);
+Route::put('user/profile', [ProfileController::class, 'update_photo']);// mengunggah dan mengganti foto profil
+
 
 Route::middleware(['auth'])->group(function () {
 
@@ -47,9 +50,7 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/export_excel', [UserController::class, 'export_excel']);
             Route::get('/export_pdf', [UserController::class, 'export_pdf']);
 
-            //ini baru aku tambahkan, perbaiki jika salah
-            Route::get('/profile', [UserController::class, 'show']);// arahkan ke halaman dashboard
-            Route::put('/profile', [UserController::class, 'update_photo']);// mengunggah dan mengganti foto profil
+            
         });
     });
 

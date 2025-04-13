@@ -29,6 +29,7 @@ class UserController extends Controller
         ];
 
         $activeMenu = 'user'; //set menu yg aktif
+        $activeMenu = 'dashboard'; //set menu yg aktif
 
         $level = LevelModel::all(); //ambil data level untuk filter
 
@@ -425,29 +426,5 @@ class UserController extends Controller
         return $pdf->stream('Data user' . date('Y-m-d H:i:s') . '.pdf');
     }
 
-    public function update_photo(Request $request)
-    {
-        $user = Auth::user();
-
-        if ($request->hasFile('photo')) {
-            $request->validate([
-                'photo' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
-            ]);
-
-            // Hapus foto lama jika ada
-            if ($user->photo && Storage::disk('public')->exists('photos/' . $user->photo)) {
-                Storage::disk('public')->delete('photos/' . $user->photo);
-            }
-
-            // Simpan foto baru
-            $photoName = time() . '.' . $request->photo->extension();
-            $request->photo->storeAs('photos', $photoName, 'public');
-
-            // Perbarui nama file foto di database
-            $user->photo = $photoName;
-            $user->save();
-        }
-
-        return redirect()->back()->with('success', 'Foto profil berhasil diperbarui.');
-    }
+    
 }

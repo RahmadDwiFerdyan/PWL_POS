@@ -52,6 +52,7 @@
       <!-- Main content -->
       <section class="content">
         <?php echo $__env->yieldContent('content'); ?>
+        
       </section>
       <!-- /.content -->
     </div>
