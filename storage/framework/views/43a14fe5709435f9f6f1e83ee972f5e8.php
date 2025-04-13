@@ -5,18 +5,18 @@
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="{{ url('/home') }}" class="nav-link">Home</a>
+        <a href="<?php echo e(url('/home')); ?>" class="nav-link">Home</a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="{{ url('/contact') }}" class="nav-link">Contact</a>
+        <a href="<?php echo e(url('/contact')); ?>" class="nav-link">Contact</a>
       </li>
     </ul>
 
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
       <li class="nav-item dropdown">
-        <a class="nav-link" href="{{ url('/user/profile') }}">
-            <img src="{{ asset('storage/photos/' . (Auth::user()->photo ?? 'default.png')) }}" class="img-circle elevation-2" alt="User Image" width="30" height="30">
+        <a class="nav-link" href="<?php echo e(url('/user/profile')); ?>">
+            <img src="<?php echo e(asset('storage/photos/' . (Auth::user()->photo ?? 'default.png'))); ?>" class="img-circle elevation-2" alt="User Image" width="30" height="30">
         </a>
     </li>
       
@@ -52,7 +52,7 @@
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
           <a href="#" class="dropdown-item">
             <div class="media">
-              <img src="{{ asset('dist/img/user1-128x128.jpg') }}" alt="User Avatar" class="img-size-50 mr-3 img-circle">
+              <img src="<?php echo e(asset('dist/img/user1-128x128.jpg')); ?>" alt="User Avatar" class="img-size-50 mr-3 img-circle">
               <div class="media-body">
                 <h3 class="dropdown-item-title">
                   Brad Diesel
@@ -66,7 +66,7 @@
           <div class="dropdown-divider"></div>
           <a href="#" class="dropdown-item">
             <div class="media">
-              <img src="{{ asset('dist/img/user8-128x128.jpg') }}" alt="User Avatar" class="img-size-50 img-circle mr-3">
+              <img src="<?php echo e(asset('dist/img/user8-128x128.jpg')); ?>" alt="User Avatar" class="img-size-50 img-circle mr-3">
               <div class="media-body">
                 <h3 class="dropdown-item-title">
                   John Pierce
@@ -80,7 +80,7 @@
           <div class="dropdown-divider"></div>
           <a href="#" class="dropdown-item">
             <div class="media">
-              <img src="{{ asset('dist/img/user3-128x128.jpg') }}" alt="User Avatar" class="img-size-50 img-circle mr-3">
+              <img src="<?php echo e(asset('dist/img/user3-128x128.jpg')); ?>" alt="User Avatar" class="img-size-50 img-circle mr-3">
               <div class="media-body">
                 <h3 class="dropdown-item-title">
                   Nora Silvester
@@ -144,7 +144,7 @@
     </ul>
   </nav>
 
-  @push('js')
+  <?php $__env->startPush('js'); ?>
   <script>
     $(document).ready(function() {
       $('#logout-button').on('click', function(e) {
@@ -164,7 +164,7 @@
           // Jika pengguna mengklik "Ya, Logout"
           if (result.isConfirmed) {
             $.ajax({
-              url: "{{ url('logout') }}",
+              url: "<?php echo e(url('logout')); ?>",
               type: "POST",
               success: function(response) {
                 Swal.fire({
@@ -172,7 +172,7 @@
                   title: 'Logout Berhasil',
                   text: 'Anda akan dialihkan ke halaman login.',
                 }).then(() => {
-                  window.location.href = "{{ url('/login') }}";
+                  window.location.href = "<?php echo e(url('/login')); ?>";
                 });
               },
               error: function(xhr) {
@@ -188,4 +188,4 @@
       });
     });
   </script>
-  @endpush
+  <?php $__env->stopPush(); ?><?php /**PATH C:\laragon\www\PWL_POS\resources\views/layouts/header.blade.php ENDPATH**/ ?>

@@ -4,12 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Models\LevelModel;
 use App\Models\UserModel;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+
 
 class UserController extends Controller
 {
@@ -228,7 +232,7 @@ class UserController extends Controller
         if ($request->ajax() || $request->wantsJson()) {
             $rules = [
                 'level_id' => 'required|integer',
-                'username' => 'required|max:20|unique:m_user,username,'.$id.',user_id',
+                'username' => 'required|max:20|unique:m_user,username,' . $id . ',user_id',
                 'nama' => 'required|max:100',
                 'password' => 'nullable|min:6|max:20'
             ];
@@ -269,9 +273,9 @@ class UserController extends Controller
 
     public function delete_ajax(Request $request, $id)
     {
-        if ($request->ajax() || $request->wantsJson()){
+        if ($request->ajax() || $request->wantsJson()) {
             $user = UserModel::find($id);
-            if($user){
+            if ($user) {
                 $user->delete();
                 return response()->json([
                     'status' => true,
@@ -413,11 +417,37 @@ class UserController extends Controller
             ->orderBy('level_id')
             ->with('level')
             ->get();
-            
+
         $pdf = Pdf::loadView('user.export_pdf', ['user' => $user]);
         $pdf->setPaper('a4', 'portrait'); // set ukuran kertas dan orientasi 
         $pdf->setOption("isRemoteEnabled", true); // set true jika ada gambar dari url
         $pdf->render();
         return $pdf->stream('Data user' . date('Y-m-d H:i:s') . '.pdf');
+    }
+
+    public function update_photo(Request $request)
+    {
+        $user = Auth::user();
+
+        if ($request->hasFile('photo')) {
+            $request->validate([
+                'photo' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            ]);
+
+            // Hapus foto lama jika ada
+            if ($user->photo && Storage::disk('public')->exists('photos/' . $user->photo)) {
+                Storage::disk('public')->delete('photos/' . $user->photo);
+            }
+
+            // Simpan foto baru
+            $photoName = time() . '.' . $request->photo->extension();
+            $request->photo->storeAs('photos', $photoName, 'public');
+
+            // Perbarui nama file foto di database
+            $user->photo = $photoName;
+            $user->save();
+        }
+
+        return redirect()->back()->with('success', 'Foto profil berhasil diperbarui.');
     }
 }

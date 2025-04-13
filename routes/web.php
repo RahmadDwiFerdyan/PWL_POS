@@ -6,6 +6,7 @@ use App\Http\Controllers\BarangController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\LevelController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
 
@@ -45,6 +46,10 @@ Route::middleware(['auth'])->group(function () {
             Route::post('/import_ajax', [UserController::class, 'import_ajax']);
             Route::get('/export_excel', [UserController::class, 'export_excel']);
             Route::get('/export_pdf', [UserController::class, 'export_pdf']);
+
+            //ini baru aku tambahkan, perbaiki jika salah
+            Route::get('/profile', [UserController::class, 'show']);// arahkan ke halaman dashboard
+            Route::put('/profile', [UserController::class, 'update_photo']);// mengunggah dan mengganti foto profil
         });
     });
 

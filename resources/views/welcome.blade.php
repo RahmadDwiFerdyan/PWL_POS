@@ -11,6 +11,24 @@
         Selamat datang, semuanya. Ini adalah halaman utama dari aplikasi ini.
     </div>
 </div>
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Profil Saya</h3>
+    </div>
+    <div class="card-body">
+        <form action="{{ url('/user/profile') }}" method="POST" enctype="multipart/form-data">
+            @csrf
+            @method('PUT')
+            <div class="form-group">
+                <label for="photo">Foto Profil</label><br>
+                <img src="{{ asset('storage/photos/' . (Auth::user()->photo ?? 'default.png')) }}" class="img-thumbnail" width="150">
+                <input type="file" name="photo" class="form-control mt-2">
+            </div>
+            <button type="submit" class="btn btn-primary mt-2">Simpan</button>
+        </form>
+    </div>
+</div>
+
 @endsection
 
 {{-- <!DOCTYPE html>
