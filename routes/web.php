@@ -49,7 +49,7 @@ Route::middleware(['auth'])->group(function () {
             Route::post('/import_ajax', [UserController::class, 'import_ajax']);
             Route::get('/export_excel', [UserController::class, 'export_excel']);
             Route::get('/export_pdf', [UserController::class, 'export_pdf']);
-
+                        
             
         });
     });

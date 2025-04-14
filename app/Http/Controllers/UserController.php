@@ -29,7 +29,6 @@ class UserController extends Controller
         ];
 
         $activeMenu = 'user'; //set menu yg aktif
-        $activeMenu = 'dashboard'; //set menu yg aktif
 
         $level = LevelModel::all(); //ambil data level untuk filter
 
